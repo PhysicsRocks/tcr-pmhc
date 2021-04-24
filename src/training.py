@@ -19,23 +19,32 @@ from sklearn.metrics import accuracy_score
 data_list = []
 target_list = []
 
+import glob
 for fp in glob.glob("data/train/*input.npz"):
     data = np.load(fp)["arr_0"]
     targets = np.load(fp.replace("input", "labels"))["arr_0"]
     
     data_list.append(data)
     target_list.append(targets)
+#print(data_list)
 
 # Note:
 # Choose your own training and val set based on data_list and target_list
 # Here using the last partition as val set
+min_max_scaler = preprocessing.MinMaxScaler()
 
 X_train = np.concatenate(data_list[ :-1])
+
 y_train = np.concatenate(target_list[:-1])
+for i in range(len(X_train)):
+    X_train[i] = min_max_scaler.fit_transform(X_train[i])
+
 nsamples, nx, ny = X_train.shape
 print("Training set shape:", nsamples,nx,ny)
 
 X_val = np.concatenate(data_list[-1: ])
+for i in range(len(X_val)):
+    X_val[i] = min_max_scaler.fit_transform(X_val[i])
 y_val = np.concatenate(target_list[-1: ])
 nsamples, nx, ny = X_val.shape
 print("val set shape:", nsamples,nx,ny)
@@ -65,6 +74,7 @@ val_ldr = torch.utils.data.DataLoader(val_ds,batch_size=bat_size, shuffle=True)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("Using device (CPU/GPU):", device)
 #device = torch.device("cpu")
+
 
 
 
