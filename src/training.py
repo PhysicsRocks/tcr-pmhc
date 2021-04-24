@@ -31,7 +31,7 @@ for fp in glob.glob("data/train/*input.npz"):
 # Note:
 # Choose your own training and val set based on data_list and target_list
 # Here using the last partition as val set
-min_max_scaler = preprocessing.MinMaxScaler()
+min_max_scaler = preprocessing.MinMaxScaler((-1,1))
 
 X_train = np.concatenate(data_list[ :-1])
 
