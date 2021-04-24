@@ -17,6 +17,7 @@ from sklearn.metrics import accuracy_score
 class Net(nn.Module):
     def __init__(self,  num_classes):
         super(Net, self).__init__()
+
         self.bn0 = nn.BatchNorm1d(54)
         self.conv1 = nn.Conv1d(in_channels=54, out_channels=100, kernel_size=3, stride=2, padding=1)
         torch.nn.init.trunc_normal_(self.conv1.weight)
@@ -33,6 +34,7 @@ class Net(nn.Module):
     def forward(self, x):
         x = self.bn0(x)
         x = self.pool(F.leaky_relu(self.conv1(x)))
+
         x = self.conv1_bn(x)
 
         x = self.pool(F.leaky_relu(self.conv2(x)))
