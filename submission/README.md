@@ -1,4 +1,4 @@
-# Add-Your-Team-Name-Here
+# 2Chains ft Kernel Lamar
 
 Our team is from ... and we think proteins are cool 🙌
 
